@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingomanía 2025 - Confirmación</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #270140, #1a0130);
+            color: white;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            text-align: center;
+        }
+        
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(54, 2, 89, 0.7);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            position: relative;
+            height: 100px;
+        }
+        
+        .logo {
+            position: absolute;
+            left: 20px;
+            height: 100px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        h1 {
+            color: #D9298A;
+            margin: 0;
+            font-size: 2.2rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            text-align: center;
+            padding-left: 80px;
+            padding-right: 20px;
+            box-sizing: border-box;
+        }
+        
+        .numeros-seleccionados {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: rgba(54, 2, 89, 0.5);
+            border-radius: 10px;
+            border: 2px solid #9A11BF;
+        }
+        
+        .numero-seleccionado {
+            background-color: #D9298A;
+            color: white;
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .formulario-container {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            padding: 20px;
+            background-color: #360259;
+            border: 2px solid #9A11BF;
+            border-radius: 10px;
+            text-align: left;
+        }
+        
+        .campo-formulario {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #D9298A;
+            font-weight: bold;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #9A11BF;
+            border-radius: 5px;
+            background-color: #270140;
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #0C06BF;
+        }
+        
+        .enviar-btn {
+            background: linear-gradient(to right, #9A11BF, #0C06BF);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+        }
+        
+        .enviar-btn:hover {
+            background: linear-gradient(to right, #D9298A, #9A11BF);
+            transform: scale(1.02);
+        }
+        
+        footer {
+            background: linear-gradient(to right, #1a0130, #360259);
+            color: white;
+            padding: 30px 20px;
+            font-size: 14px;
+            border-top: 2px solid #9A11BF;
+            margin-top: 40px;
+        }
+        
+        .redes-sociales {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 15px 0;
+        }
+        
+        .redes-sociales a {
+            color: white;
+            font-size: 24px;
+            transition: all 0.3s;
+        }
+        
+        .redes-sociales a:hover {
+            color: #D9298A;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="img/logo.png" alt="Logo Bingomanía" class="logo">
+        <h1>Confirmación de compra</h1>
+    </header>
+    
+    <h2>Tus números seleccionados:</h2>
+    <div class="numeros-seleccionados" id="numerosSeleccionadosContainer">
+        <!-- Los números seleccionados se mostrarán aquí -->
+    </div>
+    
+    <div class="formulario-container">
+        <form id="formularioPago">
+            <div class="campo-formulario">
+                <label for="nombre">Nombre y Apellido:</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+            
+            <div class="campo-formulario">
+                <label for="cedula">Cédula:</label>
+                <input type="text" id="cedula" name="cedula" required>
+            </div>
+            
+            <div class="campo-formulario">
+                <label for="telefono">Número Telefónico:</label>
+                <input type="tel" id="telefono" name="telefono" required>
+            </div>
+            
+            <div class="campo-formulario">
+                <label for="referencia">Número de Referencia Bancaria:</label>
+                <input type="text" id="referencia" name="referencia" required>
+            </div>
+            
+            <div class="campo-formulario">
+                <label for="captura">Captura de pantalla de la transacción bancaria:</label>
+                <input type="file" id="captura" name="captura" accept="image/*" required>
+            </div>
+            
+            <button type="submit" class="enviar-btn">Enviar información</button>
+        </form>
+    </div>
+    
+    <footer>
+        <div class="redes-sociales">
+            <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p>Bingomania 2025 - Todos los derechos reservados</p>
+        <p><small>Juego responsable - Prohibida la venta a menores de 18 años</small></p>
+    </footer>
+
+    <script>
+        // Mostrar los números seleccionados
+        document.addEventListener('DOMContentLoaded', function() {
+            const numerosContainer = document.getElementById('numerosSeleccionadosContainer');
+            const numerosGuardados = JSON.parse(localStorage.getItem('numerosSeleccionados')) || [];
+            
+            if (numerosGuardados.length === 0) {
+                // Si no hay números seleccionados, redirigir a la página principal
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Mostrar los números seleccionados
+            numerosGuardados.forEach(numero => {
+                const elementoNumero = document.createElement('div');
+                elementoNumero.className = 'numero-seleccionado';
+                elementoNumero.textContent = numero.toString().padStart(3, '0');
+                numerosContainer.appendChild(elementoNumero);
+            });
+            
+            // Manejar el envío del formulario
+            document.getElementById('formularioPago').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Aquí podrías agregar código para enviar los datos a un servidor
+                alert('Formulario enviado correctamente. Gracias por tu compra!');
+                
+                // Limpiar el localStorage y redirigir
+                localStorage.removeItem('numerosSeleccionados');
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>

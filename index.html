@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingomanía 2025 - Selección</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Tus estilos actuales se mantienen igual */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #270140, #1a0130);
+            color: white;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            text-align: center;
+        }
+        
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(54, 2, 89, 0.7);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            position: relative;
+            height: 100px;
+        }
+        
+        .logo {
+            position: absolute;
+            left: 20px;
+            height: 100px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        h1 {
+            color: #D9298A;
+            margin: 0;
+            font-size: 2.2rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            text-align: center;
+            padding-left: 80px;
+            padding-right: 20px;
+            box-sizing: border-box;
+        }
+        
+        .botones-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        .numero-btn {
+            background-color: #360259;
+            color: white;
+            border: 2px solid #9A11BF;
+            border-radius: 8px;
+            padding: 12px 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .numero-btn:hover {
+            background-color: #9A11BF;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(154, 17, 191, 0.4);
+        }
+        
+        .numero-btn.selected {
+            background-color: #D9298A;
+            border-color: #D9298A;
+            transform: scale(0.95);
+            box-shadow: 0 0 10px rgba(217, 41, 138, 0.7);
+        }
+        
+        .comprar-btn {
+            background: linear-gradient(to right, #9A11BF, #0C06BF);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 16px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px 0 40px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .comprar-btn:hover {
+            background: linear-gradient(to right, #D9298A, #9A11BF);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(217, 41, 138, 0.4);
+        }
+        
+        .comprar-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            opacity: 0.7;
+        }
+        
+        .contador-seleccionados {
+            color: #D9298A;
+            font-size: 1.2rem;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        footer {
+            background: linear-gradient(to right, #1a0130, #360259);
+            color: white;
+            padding: 30px 20px;
+            font-size: 14px;
+            border-top: 2px solid #9A11BF;
+            margin-top: 40px;
+        }
+        
+        .redes-sociales {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 15px 0;
+        }
+        
+        .redes-sociales a {
+            color: white;
+            font-size: 24px;
+            transition: all 0.3s;
+        }
+        
+        .redes-sociales a:hover {
+            color: #D9298A;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="img/logo.png" alt="Logo Bingomanía" class="logo">
+        <h1>Selecciona tu cartón de bingo</h1>
+    </header>
+    
+    <div class="contador-seleccionados" id="contador">0 números seleccionados</div>
+    
+    <div class="botones-container" id="botonesContainer">
+        <!-- Los botones se generarán con JavaScript -->
+    </div>
+    
+    <button class="comprar-btn" id="comprarBtn" disabled>Comprar ahora</button>
+    
+    <footer>
+        <div class="redes-sociales">
+            <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p>Bingomania 2025 - Todos los derechos reservados</p>
+        <p><small>Juego responsable - Prohibida la venta a menores de 18 años</small></p>
+    </footer>
+
+    <script>
+        // Variables globales
+        const numerosSeleccionados = new Set();
+        
+        // Elementos del DOM
+        const container = document.getElementById('botonesContainer');
+        const btnComprar = document.getElementById('comprarBtn');
+        const contador = document.getElementById('contador');
+        
+        // Generar los 500 botones numerados
+        for (let i = 1; i <= 500; i++) {
+            const numero = i.toString().padStart(3, '0');
+            const boton = document.createElement('button');
+            boton.className = 'numero-btn';
+            boton.textContent = numero;
+            boton.dataset.numero = i;
+            
+            boton.addEventListener('click', function() {
+                toggleSeleccionNumero(this, i);
+            });
+            
+            container.appendChild(boton);
+        }
+        
+        // Función para seleccionar/deseleccionar números
+        function toggleSeleccionNumero(boton, numero) {
+            if (numerosSeleccionados.has(numero)) {
+                // Deseleccionar
+                numerosSeleccionados.delete(numero);
+                boton.classList.remove('selected');
+            } else {
+                // Seleccionar
+                numerosSeleccionados.add(numero);
+                boton.classList.add('selected');
+            }
+            
+            // Actualizar contador
+            actualizarContador();
+            
+            // Habilitar/deshabilitar botón de comprar
+            btnComprar.disabled = numerosSeleccionados.size === 0;
+        }
+        
+        // Actualizar el contador de números seleccionados
+        function actualizarContador() {
+            contador.textContent = `${numerosSeleccionados.size} número${numerosSeleccionados.size !== 1 ? 's' : ''} seleccionado${numerosSeleccionados.size !== 1 ? 's' : ''}`;
+            contador.style.color = '#D9298A';
+        }
+        
+        // Funcionalidad del botón comprar
+        btnComprar.onclick = function() {
+            // Guardar los números seleccionados en localStorage
+            localStorage.setItem('numerosSeleccionados', JSON.stringify(Array.from(numerosSeleccionados)));
+            
+            // Redirigir a la página del formulario
+            window.location.href = 'formulario.html';
+        };
+    </script>
+</body>
+</html>

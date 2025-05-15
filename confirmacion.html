@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingomanía 2025</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #270140;
+            color: white;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #D9298A;
+            margin-bottom: 30px;
+        }
+        
+        .recibo {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            padding: 30px;
+            background-color: #360259;
+            border: 3px solid #9A11BF;
+            border-radius: 15px;
+            text-align: left;
+            box-shadow: 0 0 20px rgba(217, 41, 138, 0.3);
+        }
+        
+        .recibo-titulo {
+            color: #D9298A;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid #0C06BF;
+            padding-bottom: 10px;
+        }
+        
+        .recibo-texto {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .cartones-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 25px 0;
+            padding: 15px;
+            background-color: rgba(39, 1, 64, 0.5);
+            border-radius: 10px;
+            border: 1px dashed #9A11BF;
+        }
+        
+        .carton-numero {
+            background-color: #0C06BF;
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 0 10px rgba(217, 41, 138, 0.5);
+        }
+        
+        .telefono {
+            color: #D9298A;
+            font-weight: bold;
+            font-size: 20px;
+            text-align: center;
+            margin: 25px 0;
+        }
+        
+        .suerte {
+            font-size: 22px;
+            color: #9A11BF;
+            text-align: center;
+            margin-top: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        footer {
+            color: #D9298A;
+            padding: 20px;
+            font-size: 14px;
+            border-top: 1px solid #9A11BF;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Selecciona tu cartón de bingo</h1>
+    
+    <div class="recibo">
+        <div class="recibo-titulo">Confirmación de Compra</div>
+        
+        <div class="recibo-texto">Gracias por su compra <span id="nombreCliente"></span>, ha comprado los siguientes cartones:</div>
+        
+        <div class="cartones-container" id="cartonesComprados">
+            <!-- Los números de cartones se generarán con JavaScript -->
+        </div>
+        
+        <div class="recibo-texto">El pago será verificado en las próximas 24 horas y se le notificará al correo registrado al momento de ser aprobado.</div>
+        
+        <div class="recibo-texto">Para más información llamar al:</div>
+        
+        <div class="telefono" id="telefonoContacto"></div>
+        
+        <div class="suerte">¡Mucha suerte!</div>
+    </div>
+    
+    <footer>
+        Bingomania 2025 todos los derechos reservados
+    </footer>
+
+    <script>
+        // Generar nombres aleatorios
+        const nombres = ["María González", "Carlos Rodríguez", "Ana Martínez", "Luis Fernández", "Laura Pérez", 
+                        "Jorge Sánchez", "Sofía Ramírez", "Pedro López", "Isabel Gómez", "Miguel Díaz"];
+        
+        // Generar números de teléfono aleatorios
+        const telefonos = ["+58 412-5551234", "+58 414-5555678", "+58 416-5559012", "+58 424-5553456", 
+                          "+58 426-5557890", "+58 412-5552345", "+58 414-5556789", "+58 416-5550123"];
+        
+        // Seleccionar nombre y teléfono aleatorio
+        const nombreAleatorio = nombres[Math.floor(Math.random() * nombres.length)];
+        const telefonoAleatorio = telefonos[Math.floor(Math.random() * telefonos.length)];
+        
+        // Mostrar en el DOM
+        document.getElementById('nombreCliente').textContent = nombreAleatorio;
+        document.getElementById('telefonoContacto').textContent = telefonoAleatorio;
+        
+        // Generar 5 números de cartón aleatorios entre 001 y 500
+        const cartonesContainer = document.getElementById('cartonesComprados');
+        const numerosCartones = [];
+        
+        while (numerosCartones.length < 5) {
+            const num = Math.floor(Math.random() * 500) + 1;
+            const numFormateado = num.toString().padStart(3, '0');
+            
+            if (!numerosCartones.includes(numFormateado)) {
+                numerosCartones.push(numFormateado);
+                
+                const divCarton = document.createElement('div');
+                divCarton.className = 'carton-numero';
+                divCarton.textContent = numFormateado;
+                cartonesContainer.appendChild(divCarton);
+            }
+        }
+    </script>
+</body>
+</html>
