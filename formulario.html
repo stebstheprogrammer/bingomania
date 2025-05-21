@@ -157,6 +157,36 @@
             color: #D9298A;
             transform: translateY(-3px);
         }
+
+        /* Estilos para los cartones */
+    .cartones-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        margin: 20px 0;
+    }
+
+    .carton {
+    margin: 20px;
+    display: inline-block;
+}
+
+.carton-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.carton-table th, .carton-table td {
+    border: 2px solid #360259;
+    padding: 10px;
+    text-align: center;
+}
+
+.carton-table th {
+    background-color: #D9298A;
+    color: white;
+}
     </style>
 </head>
 <body>
@@ -166,8 +196,11 @@
     </header>
     
     <h2>Tus números seleccionados:</h2>
-    <div class="numeros-seleccionados" id="numerosSeleccionadosContainer">
-        <!-- Los números seleccionados se mostrarán aquí -->
+    <div class="numeros-seleccionados">
+    <h2>Tus cartones de bingo:</h2>
+    <div id="cartonesContainer" class="cartones-container">
+        <!-- Cartones aparecerán aquí -->
+    </div>
     </div>
     
     <div class="formulario-container">
@@ -213,37 +246,76 @@
     </footer>
 
     <script>
-        // Mostrar los números seleccionados
-        document.addEventListener('DOMContentLoaded', function() {
-            const numerosContainer = document.getElementById('numerosSeleccionadosContainer');
-            const numerosGuardados = JSON.parse(localStorage.getItem('numerosSeleccionados')) || [];
-            
-            if (numerosGuardados.length === 0) {
-                // Si no hay números seleccionados, redirigir a la página principal
-                window.location.href = 'index.html';
-                return;
+    document.addEventListener('DOMContentLoaded', function() {
+        const numerosSeleccionados = JSON.parse(localStorage.getItem('numerosSeleccionados')) || [];
+        const cartonesContainer = document.getElementById('cartonesContainer');
+
+        if (numerosSeleccionados.length === 0) {
+            window.location.href = 'index.html';
+            return;
+        }
+
+        // Función mejorada para generar cartones
+        function generarCartonAleatorio(numeroCarton) {
+            const rangos = {
+                'B': [1, 15], 'I': [16, 30], 'N': [31, 45], 'G': [46, 60], 'O': [61, 75]
+            };
+
+            // Generar números únicos por columna
+            const columnas = {};
+            for (const [letra, rango] of Object.entries(rangos)) {
+                const numeros = [];
+                while (numeros.length < 5) {
+                    const num = Math.floor(Math.random() * (rango[1] - rango[0] + 1)) + rango[0];
+                    if (!numeros.includes(num)) numeros.push(num);
+                }
+                columnas[letra] = numeros.sort((a, b) => a - b);
             }
+
+            // Construir matriz 5x5 (con celda central vacía)
+            const carton = [];
+            for (let i = 0; i < 5; i++) {
+                carton.push([
+                    columnas.B[i],
+                    columnas.I[i],
+                    i === 2 ? '' : columnas.N[i], // Celda central vacía
+                    columnas.G[i],
+                    columnas.O[i]
+                ]);
+            }
+
+            return {
+                titulo: `Cartón ${numeroCarton.toString().padStart(3, '0')}`,
+                matriz: carton
+            };
+        }
+
+        // Limpiar contenedor primero
+        cartonesContainer.innerHTML = '';
+
+        // Generar hasta 4 cartones (usando los primeros números seleccionados como títulos)
+        numerosSeleccionados.slice(0, 4).forEach(num => {
+            const { titulo, matriz } = generarCartonAleatorio(num);
             
-            // Mostrar los números seleccionados
-            numerosGuardados.forEach(numero => {
-                const elementoNumero = document.createElement('div');
-                elementoNumero.className = 'numero-seleccionado';
-                elementoNumero.textContent = numero.toString().padStart(3, '0');
-                numerosContainer.appendChild(elementoNumero);
-            });
-            
-            // Manejar el envío del formulario
-            document.getElementById('formularioPago').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Aquí podrías agregar código para enviar los datos a un servidor
-                alert('Formulario enviado correctamente. Gracias por tu compra!');
-                
-                // Limpiar el localStorage y redirigir
-                localStorage.removeItem('numerosSeleccionados');
-                window.location.href = 'index.html';
-            });
+            const filasHTML = matriz.map(fila => `
+                <tr>
+                    ${fila.map((num, j) => `
+                        <td${num === '' ? ' class="empty"' : ''}>${num}</td>
+                    `).join('')}
+                </tr>
+            `).join('');
+
+            cartonesContainer.innerHTML += `
+                <div class="carton">
+                    <h3>${titulo}</h3>
+                    <table class="carton-table">
+                        <thead><tr><th>B</th><th>I</th><th>N</th><th>G</th><th>O</th></tr></thead>
+                        <tbody>${filasHTML}</tbody>
+                    </table>
+                </div>
+            `;
         });
-    </script>
+    });
+</script>
 </body>
 </html>

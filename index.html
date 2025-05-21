@@ -160,7 +160,152 @@
     </div>
     
     <button class="comprar-btn" id="comprarBtn" disabled>Comprar ahora</button>
-    
+    <!-- Agrega esto antes del footer en tu index.html -->
+<div id="modalCartones" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Tus cartones generados</h2>
+        <div id="cartonesContainer" class="cartones-container">
+            <!-- Cartones aparecerán aquí -->
+        </div>
+        <button id="btnContinuar" class="continuar-btn">Continuar</button>
+    </div>
+</div>
+
+<style>
+    /* Estilos para el modal */
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .modal-content {
+        background: linear-gradient(to bottom, #270140, #1a0130);
+        padding: 20px;
+        border-radius: 10px;
+        border: 2px solid #D9298A;
+        max-width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        text-align: center;
+    }
+
+    .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 28px;
+        cursor: pointer;
+        color: #D9298A;
+    }
+
+    .cartones-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        margin: 20px 0;
+    }
+
+    .carton {
+        background: white;
+        color: #360259;
+        border-radius: 8px;
+        padding: 10px;
+        width: 180px;
+    }
+
+    .carton h3 {
+        margin: 0 0 10px 0;
+        color: #D9298A;
+    }
+
+    .carton table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .carton td {
+        border: 1px solid #360259;
+        padding: 5px;
+        text-align: center;
+    }
+
+    .continuar-btn {
+        background: linear-gradient(to right, #9A11BF, #0C06BF);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+    }
+</style>
+
+<script>
+    // Función para generar un cartón aleatorio (basado en números seleccionados)
+    function generarCarton(numeros) {
+        // Mezclar los números seleccionados
+        const numerosMezclados = [...numeros].sort(() => Math.random() - 0.5);
+        
+        // Crear estructura 5x5 (tomar primeros 25 números)
+        const carton = [];
+        for (let i = 0; i < 5; i++) {
+            carton.push(numerosMezclados.slice(i * 5, (i + 1) * 5));
+        }
+        return carton;
+    }
+
+    // Mostrar modal con cartones
+    function mostrarCartones(numerosSeleccionados) {
+        const modal = document.getElementById('modalCartones');
+        const cartonesContainer = document.getElementById('cartonesContainer');
+        
+        // Generar 4 cartones de ejemplo (puedes ajustar la cantidad)
+        cartonesContainer.innerHTML = '';
+        for (let i = 0; i < 4; i++) {
+            const carton = generarCarton(numerosSeleccionados);
+            const cartonHTML = `
+                <div class="carton">
+                    <h3>Cartón ${i + 1}</h3>
+                    <table>
+                        ${carton.map(row => `
+                            <tr>${row.map(num => `<td>${num.toString().padStart(3, '0')}</td>`).join('')}</tr>
+                        `).join('')}
+                    </table>
+                </div>
+            `;
+            cartonesContainer.innerHTML += cartonHTML;
+        }
+        
+        modal.style.display = 'flex';
+    }
+
+    // Cerrar modal
+    document.querySelector('.close-modal').onclick = function() {
+        document.getElementById('modalCartones').style.display = 'none';
+    };
+
+    // Modificar el evento del botón "Comprar ahora"
+    btnComprar.onclick = function() {
+        mostrarCartones(Array.from(numerosSeleccionados));
+    };
+
+    // Botón "Continuar" del modal
+    document.getElementById('btnContinuar').onclick = function() {
+        localStorage.setItem('numerosSeleccionados', JSON.stringify(Array.from(numerosSeleccionados)));
+        window.location.href = 'formulario.html';
+    };
+</script>
     <footer>
         <div class="redes-sociales">
             <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
