@@ -50,16 +50,36 @@
 
         /* Contenedor principal */
         .contenedor-sorteo {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin-top: 10px;  /* Reducido desde 20px */
+            padding: 10px 20px; /* Reducido desde 20px */
+            gap: 15px; /* Reducido desde 20px */
         }
+
+        .seccion-izquierda {
+        flex: 1;
+        min-width: 300px;
+        max-width: 600px;
+    }
+
+    /* Sección derecha (Sorteo) */
+    .seccion-derecha {
+        flex: 1;
+        min-width: 300px;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
         /* Bola del sorteo */
         .bola-sorteo {
             width: 80px;
             height: 80px;
-            background: radial-gradient(circle at 30% 30%, #fff, #D9298A);
+            background: radial-gradient(circle at 30% 30%, #000000, #D9298A);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -75,7 +95,7 @@
         /* Botones */
         .btn-sorteo {
             background: linear-gradient(to right, #9A11BF, #0C06BF);
-            color: white;
+            color: rgb(0, 0, 0);
             border: none;
             border-radius: 50px;
             padding: 12px 24px;
@@ -110,7 +130,7 @@
         .bola {
             width: 40px;
             height: 40px;
-            background: radial-gradient(circle at 30% 30%, #fff, #360259);
+            background: radial-gradient(circle at 30% 30%, #000000, #360259);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -119,8 +139,20 @@
             border: 2px solid #9A11BF;
         }
 
+        .bola-sorteo .B { color: #FF5733; }
+        .bola-sorteo .I { color: #33FF57; }
+        .bola-sorteo .N { color: #3357FF; }
+        .bola-sorteo .G { color: #F3FF33; }
+        .bola-sorteo .O { color: #FF33F3; }
+
         /* Responsive */
         @media (max-width: 600px) {
+            .contenedor-sorteo {
+            flex-direction: column;
+        }
+        .seccion-izquierda, .seccion-derecha {
+            max-width: 100%;
+        }
             .bola-sorteo {
                 width: 60px;
                 height: 60px;
@@ -147,6 +179,89 @@
             border-top: 2px solid #9A11BF;
             margin-top: 40px;
         }
+
+         /* Estilos para la tabla BINGO */
+    .tabla-bingo-container {
+        margin: 10px auto;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .tabla-bingo-wrapper {
+        display: inline-block;
+        margin: 0 auto;
+    }
+
+    .tabla-bingo {
+        border-collapse: collapse;
+        margin: 0 auto;
+        background: rgba(54, 2, 89, 0.7);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        font-size: 0.9rem;
+    }
+
+    .tabla-bingo th {
+        background: #D9298A;
+        color: white;
+        font-size: 1.2rem;
+        width: 40px;
+        padding: 6px; /* Reducido desde 10px */
+        font-size: 1rem; /* Reducido desde 1.2rem */
+    }
+
+    .tabla-bingo td {
+        border: 1px solid #9A11BF;
+        padding: 4px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        width: 32px;
+        height: 28px;
+    }
+
+    .tabla-bingo td:hover {
+        background: rgba(154, 17, 191, 0.3);
+    }
+
+    .tabla-bingo td.sorteado {
+        background: #D9298A;
+        color: white;
+        font-weight: bold;
+    }
+
+    /* Agregar estos estilos */
+    .bola-letra {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #D9298A;
+    }
+    
+    .bola-numero {
+        font-size: 1.1em;
+    }
+    
+    .bola-sorteo .bola-letra {
+        color: rgb(0, 0, 0);
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .tabla-bingo td, .tabla-bingo th {
+            padding: 5px;
+            width: 30px;
+            height: 30px;
+            font-size: 0.9rem;
+        }
+        .bola-letra {
+            font-size: 1em;
+        }
+        .bola-numero {
+            font-size: 0.9em;
+        }
+    }
     </style>
 </head>
 <body>
@@ -156,16 +271,43 @@
     </header>
 
     <div class="contenedor-sorteo">
-        <!-- Bola actual -->
-        <div id="bolaActual" class="bola-sorteo">--</div>
-        
-        <!-- Controles -->
-        <button id="btnSacarBola" class="btn-sorteo">Sacar Bola</button>
-        <button id="btnReiniciar" class="btn-sorteo">Reiniciar</button>
-        
-        <!-- Bolas sorteadas -->
-        <h2>Bolas sorteadas:</h2>
-        <div id="bolasContainer" class="bolas-container"></div>
+        <!-- Sección Izquierda - Tabla BINGO -->
+        <section class="seccion-izquierda">
+            <div class="tabla-bingo-container">
+                <div class="tabla-bingo-wrapper">
+                    <table class="tabla-bingo">
+                        <thead>
+                            <tr>
+                                <th>B</th>
+                                <th>I</th>
+                                <th>N</th>
+                                <th>G</th>
+                                <th>O</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Filas generadas por JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Derecha - Sorteo -->
+        <section class="seccion-derecha">
+            <!-- Bola actual -->
+            <div id="bolaActual" class="bola-sorteo">--</div>
+            
+            <!-- Controles -->
+            <div class="controles-sorteo">
+                <button id="btnSacarBola" class="btn-sorteo">Sacar Bola</button>
+                <button id="btnReiniciar" class="btn-sorteo">Reiniciar</button>
+            </div>
+            
+            <!-- Bolas sorteadas -->
+            <h2>Bolas sorteadas:</h2>
+            <div id="bolasContainer" class="bolas-container"></div>
+        </section>
     </div>
 
     <footer>
@@ -174,57 +316,121 @@
     </footer>
 
     <script>
-        // Variables
-        let bolasSorteadas = [];
-        const numerosPosibles = Array.from({length: 75}, (_, i) => i + 1); // 1-75
+    // Variables (declarar primero todo lo que necesitamos)
+    let bolasSorteadas = [];
+    const numerosPosibles = Array.from({length: 75}, (_, i) => i + 1); // 1-75
+    
+    // Elementos DOM (declarar todos al inicio)
+    const bolaActual = document.getElementById('bolaActual');
+    const btnSacarBola = document.getElementById('btnSacarBola');
+    const btnReiniciar = document.getElementById('btnReiniciar');
+    const bolasContainer = document.getElementById('bolasContainer');
 
-        // Elementos DOM
-        const bolaActual = document.getElementById('bolaActual');
-        const btnSacarBola = document.getElementById('btnSacarBola');
-        const btnReiniciar = document.getElementById('btnReiniciar');
-        const bolasContainer = document.getElementById('bolasContainer');
+    // Función para actualizar bolas sorteadas
+    function actualizarBolasSorteadas() {
+    bolasContainer.innerHTML = bolasSorteadas.map(item => 
+        `<div class="bola">${item.letra}-${item.numero}</div>`
+    ).join('');
+    }
 
-        // Sacar bola aleatoria
-        btnSacarBola.addEventListener('click', () => {
-            if (numerosPosibles.length === 0) {
-                alert('¡Todas las bolas han sido sorteadas!');
-                return;
-            }
-
-            // Seleccionar número aleatorio
-            const randomIndex = Math.floor(Math.random() * numerosPosibles.length);
-            const numero = numerosPosibles.splice(randomIndex, 1)[0];
-            bolasSorteadas.push(numero);
-
-            // Actualizar UI
-            bolaActual.textContent = numero;
-            actualizarBolasSorteadas();
-
-            // Deshabilitar botón si no hay más bolas
-            if (numerosPosibles.length === 0) {
-                btnSacarBola.disabled = true;
-            }
+    // Evento para marcar números en la tabla
+    document.addEventListener('bolaSacada', function(e) {
+        const numero = e.detail.numero;
+        const celdas = document.querySelectorAll(`.tabla-bingo td[data-numero="${numero}"]`);
+        celdas.forEach(celda => {
+            celda.classList.add('sorteado');
         });
+    });
 
-        // Reiniciar sorteo
+    // Generar la tabla BINGO
+    document.addEventListener('DOMContentLoaded', function() {
+        const tablaBody = document.querySelector('.tabla-bingo tbody');
+        const rangos = {
+            'B': [1, 15],
+            'I': [16, 30],
+            'N': [31, 45],
+            'G': [46, 60],
+            'O': [61, 75]
+        };
+
+        for (let i = 0; i < 15; i++) {
+            const fila = document.createElement('tr');
+            
+            Object.keys(rangos).forEach(letra => {
+                const celda = document.createElement('td');
+                const num = rangos[letra][0] + i;
+                celda.textContent = num;
+                celda.dataset.numero = num;
+                fila.appendChild(celda);
+            });
+            
+            tablaBody.appendChild(fila);
+        }
+
+    // Función para obtener la letra del rango
+    function obtenerLetraBingo(numero) {
+    if (numero <= 15) return 'B';
+    if (numero <= 30) return 'I';
+    if (numero <= 45) return 'N';
+    if (numero <= 60) return 'G';
+    return 'O';
+    }
+
+        // Modificar el evento de sacar bola
+    btnSacarBola.addEventListener('click', () => {
+    if (numerosPosibles.length === 0) {
+        alert('¡Todas las bolas han sido sorteadas!');
+        return;
+    }
+
+    const randomIndex = Math.floor(Math.random() * numerosPosibles.length);
+    const numero = numerosPosibles.splice(randomIndex, 1)[0];
+    const letra = obtenerLetraBingo(numero);
+    
+    // Guardar como objeto correctamente
+    bolasSorteadas.push({numero: numero, letra: letra});
+
+    // Actualizar bola actual (usando textContent en lugar de innerHTML para seguridad)
+    bolaActual.textContent = `${letra}-${numero}`;
+    
+    // Marcar en la tabla
+    const event = new CustomEvent('bolaSacada', { detail: { numero: numero } });
+    document.dispatchEvent(event);
+
+    actualizarBolasSorteadas();
+
+    if (numerosPosibles.length === 0) {
+        btnSacarBola.disabled = true;
+    }
+    });
+
+        // Evento del botón Reiniciar
         btnReiniciar.addEventListener('click', () => {
             numerosPosibles.push(...bolasSorteadas);
             bolasSorteadas = [];
             bolaActual.textContent = '--';
             bolasContainer.innerHTML = '';
             btnSacarBola.disabled = false;
-        });
-
-        // Mostrar bolas sorteadas
-        function actualizarBolasSorteadas() {
-            bolasContainer.innerHTML = '';
-            bolasSorteadas.forEach(num => {
-                const bola = document.createElement('div');
-                bola.className = 'bola';
-                bola.textContent = num;
-                bolasContainer.appendChild(bola);
+            
+            // Limpiar números sorteados en la tabla
+            document.querySelectorAll('.tabla-bingo td.sorteado').forEach(td => {
+                td.classList.remove('sorteado');
             });
-        }
-    </script>
+        });
+    });
+
+    // Actualizar función de bolas sorteadas
+    function actualizarBolasSorteadas() {
+    bolasContainer.innerHTML = '';
+    bolasSorteadas.forEach(item => {
+        const bola = document.createElement('div');
+        bola.className = 'bola';
+        // Mostrar correctamente la letra y el número (ej: "B-12")
+        bola.textContent = `${item.letra}-${item.numero}`;
+        bolasContainer.appendChild(bola);
+    });
+    }
+
+</script>
 </body>
 </html>
